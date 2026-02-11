@@ -1,0 +1,1 @@
+/home/unique9/vimplus/.vimrc
