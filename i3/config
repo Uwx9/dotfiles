@@ -278,5 +278,5 @@ workspace $ws2 output HDMI-1-0 eDP
 workspace $ws3 output HDMI-1-0 eDP  
 
 # 移动工作区到另一个显示器
-bindsym $mod+n move workspace to output right
-
+bindsym $mod+m move workspace to output right
+bindsym $mod+n focus output next
