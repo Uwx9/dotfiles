@@ -353,4 +353,3 @@ hi CursorLineNr cterm=NONE ctermfg=NONE ctermbg=NONE
 set signcolumn=auto
 "强制符号列背景透明，只显示符号本身
 hi SignColumn cterm=NONE ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
-
