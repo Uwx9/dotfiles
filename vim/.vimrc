@@ -13,11 +13,7 @@
 "  .    :8;S: . S@.       t8;8:: .   .;:;. . .   .%@%:   t%%; .%%;..: t. .;  :  . . .    %;8.  ;X;X%.:.: t  ;t  ;:: :t;..
 "     :%@t%8   88.  .  .  :: . ..   .   .          .   . ..  .      ..   .    .       . . ... .   . .   .        ..
 "      .. 8888   ..      ...   . .    .   .  . .     .   ..    .  .    .        .   .   . ..    .  .  .   .  . .     ....
-"
-" Author: chxuan <787280310@qq.com>
-" Repository: https://github.com/chxuan/vimplus
-" Create Date: 2016-04-10
-" License: MIT
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 通用设置
@@ -77,6 +73,7 @@ set hlsearch            " 高亮显示搜索结果
 set incsearch           " 开启实时搜索功能
 set ignorecase          " 搜索时大小写不敏感
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 缓存设置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -85,6 +82,7 @@ set noswapfile          " 禁止生成临时文件
 set autoread            " 文件在vim之外修改过，自动重新读入
 set autowrite           " 设置自动保存
 set confirm             " 在处理未保存或只读文件的时候，弹出确认
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 编码设置
@@ -95,24 +93,6 @@ set termencoding=utf-8
 set encoding=utf8
 set fileencodings=utf8,ucs-bom,gbk,cp936,gb2312,gb18030
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" gvim/macvim设置
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has("gui_running")
-    let system = system('uname -s')
-    if system == "Darwin\n"
-        set guifont=Droid\ Sans\ Mono\ Nerd\ Font\ Complete:h18 " 设置字体
-    else
-        set guifont=DroidSansMono\ Nerd\ Font\ Regular\ 18      " 设置字体
-    endif
-    set guioptions-=m           " 隐藏菜单栏
-    set guioptions-=T           " 隐藏工具栏
-    set guioptions-=L           " 隐藏左侧滚动条
-    set guioptions-=r           " 隐藏右侧滚动条
-    set guioptions-=b           " 隐藏底部滚动条
-    set showtabline=0           " 隐藏Tab栏
-    set guicursor=n-v-c:ver5    " 设置光标为竖线
-endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 卸载默认插件的命令UnPlug
@@ -123,6 +103,51 @@ function! s:deregister(repo)
   call remove(g:plugs, name)
 endfunction
 command! -nargs=1 -bar UnPlug call s:deregister(<args>)
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 编辑vimrc相关配置文件
+nnoremap <leader>e :edit $MYVIMRC<cr>
+nnoremap <leader>vc :edit ~/.vimrc.custom.config<cr>
+nnoremap <leader>vp :edit ~/.vimrc.custom.plugins<cr>
+
+" 查看vimplus的help文件
+nnoremap <leader>h :view +let\ &l:modifiable=0 ~/.vimplus/help.md<cr>
+
+" 打开当前光标所在单词的vim帮助文档
+nnoremap <leader>H :execute ":help " . expand("<cword>")<cr>
+
+" 重新加载vimrc文件
+nnoremap <leader>s :source $MYVIMRC<cr>
+
+" 安装、更新、删除插件
+nnoremap <leader><leader>i :PlugInstall<cr>
+nnoremap <leader><leader>u :PlugUpdate<cr>
+nnoremap <leader><leader>c :PlugClean<cr>
+
+" 分屏窗口移动
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" 复制当前选中到系统剪切板
+vmap <leader><leader>y "+y
+
+" 将系统剪切板内容粘贴到vim
+nnoremap <leader><leader>p "+p
+
+" 打开文件自动定位到最后编辑的位置
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
+
+" 主题设置
+" set termguicolors 
+" set background=dark
+" let g:onedark_termcolors=256
+" colorscheme default
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 插件列表
@@ -166,7 +191,6 @@ Plug 'Shougo/echodoc.vim'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'rhysd/clever-f.vim'
 Plug 'vim-scripts/indentpython.vim'
-" Plug 'sheerun/vim-polyglot'
 
 " 加载自定义插件
 if filereadable(expand($HOME . '/.vimrc.custom.plugins'))
@@ -175,48 +199,9 @@ endif
 
 call plug#end()
 
+
 " load vim default plugin
 runtime macros/matchit.vim
-
-" 编辑vimrc相关配置文件
-nnoremap <leader>e :edit $MYVIMRC<cr>
-nnoremap <leader>vc :edit ~/.vimrc.custom.config<cr>
-nnoremap <leader>vp :edit ~/.vimrc.custom.plugins<cr>
-
-" 查看vimplus的help文件
-nnoremap <leader>h :view +let\ &l:modifiable=0 ~/.vimplus/help.md<cr>
-
-" 打开当前光标所在单词的vim帮助文档
-nnoremap <leader>H :execute ":help " . expand("<cword>")<cr>
-
-" 重新加载vimrc文件
-nnoremap <leader>s :source $MYVIMRC<cr>
-
-" 安装、更新、删除插件
-nnoremap <leader><leader>i :PlugInstall<cr>
-nnoremap <leader><leader>u :PlugUpdate<cr>
-nnoremap <leader><leader>c :PlugClean<cr>
-
-" 分屏窗口移动
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-
-" 复制当前选中到系统剪切板
-vmap <leader><leader>y "+y
-
-" 将系统剪切板内容粘贴到vim
-nnoremap <leader><leader>p "+p
-
-" 打开文件自动定位到最后编辑的位置
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
-
-" 主题设置
-" set termguicolors 
-" set background=dark
-" let g:onedark_termcolors=256
-" colorscheme default
 
 " airline
 let g:airline_theme="onedark"
@@ -335,16 +320,18 @@ nnoremap <leader>gg :GV?<cr>
 
 " coc
 
-" vim-polyglot
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+"private config
+""""""""""""""""""""""""""""""""""""""""""""""""""
 " 加载自定义配置
 if filereadable(expand($HOME . '/.vimrc.custom.config'))
     source $HOME/.vimrc.custom.config
 endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
 "clean mode
-""""""""""""""""""""""""""""""""""""""""""""""""""
+
 syntax off
 " 关闭行号颜色，让它和终端背景一致
 hi LineNr cterm=NONE ctermfg=NONE ctermbg=NONE
